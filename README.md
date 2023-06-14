@@ -1,3 +1,3 @@
 # lista_asistencia_actualizado
 
-A new Flutter project.
+Proyecto escolar de lista de asistencia escolar
