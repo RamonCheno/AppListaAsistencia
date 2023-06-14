@@ -1,0 +1,25 @@
+name: lista_asistencia_actualizado
+description: A new Flutter project.
+version: 0.1.0
+
+environment:
+  sdk: '>=3.0.3 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  path: ^1.8.3
+  path_provider: ^2.0.12
+  sqflite: ^2.2.5
+
+dev_dependencies:
+  flutter_lints: ^2.0.0
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/database/listaAsistenciaDB.db
