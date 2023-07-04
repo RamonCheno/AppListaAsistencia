@@ -1,8 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:lista_asistencia_actualizado/model/student.model.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
-
-import 'custom_radio.dart';
+import 'package:lista_asistencia_actualizado/index/index.view.dart';
 
 class StudentInfoWidget extends StatefulWidget {
   final StudentModel student;

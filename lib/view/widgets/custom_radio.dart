@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:lista_asistencia_actualizado/index/index.view.dart';
 
 class CustomRadio extends StatelessWidget {
   final Widget icon;

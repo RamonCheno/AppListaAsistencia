@@ -1,11 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
-
-import '../../../model/student.model.dart';
-import '../../widgets/custom_pop_menu_button.widget.dart';
-import '../../widgets/custom_scaffold.widget.dart';
-import 'add.student.screen.dart';
+import 'package:lista_asistencia_actualizado/index/index.view.dart';
 
 class ListStudentScreen extends StatefulWidget {
   const ListStudentScreen({super.key});

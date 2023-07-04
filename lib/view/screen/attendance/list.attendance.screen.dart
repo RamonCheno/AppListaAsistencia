@@ -1,11 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
+import 'package:lista_asistencia_actualizado/index/index.view.dart';
+
 import 'package:intl/intl.dart';
-import 'package:lista_asistencia_actualizado/model/attendance.model.dart';
-import 'package:lista_asistencia_actualizado/model/student.model.dart';
-import 'package:lista_asistencia_actualizado/view/widgets/custom_scaffold.widget.dart';
-import 'package:lista_asistencia_actualizado/view/widgets/student_info_widget.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
 
 class ListAttendanceScreen extends StatefulWidget {
   const ListAttendanceScreen({super.key});

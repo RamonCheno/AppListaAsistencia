@@ -1,7 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
-
-import 'custom_pop_menu_button.widget.dart';
+import 'package:lista_asistencia_actualizado/index/index.view.dart';
 
 class CustomScaffoldWidget extends StatelessWidget {
   final String title;

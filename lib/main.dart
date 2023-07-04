@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
-import 'view/index.dart';
+import 'package:lista_asistencia_actualizado/index/index.view.dart';
 
 void main() {
   runApp(const MainApp());
@@ -16,6 +14,7 @@ class MainApp extends StatelessWidget {
       AddStudentScreen.route: (_) => const AddStudentScreen(),
       ListAttendanceScreen.route: (_) => const ListAttendanceScreen(),
       ListsHome.route: (_) => const ListsHome(),
+      ListGroupScreen.route: (_) => const ListGroupScreen(),
     };
 
     return ResponsiveSizer(

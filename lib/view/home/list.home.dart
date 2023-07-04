@@ -1,7 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:lista_asistencia_actualizado/view/screen/attendance/list.attendance.screen.dart';
-import 'package:lista_asistencia_actualizado/view/screen/students/list.students.screen.dart';
-import 'package:lista_asistencia_actualizado/view/widgets/page_view_widget.dart';
+import 'package:lista_asistencia_actualizado/index/index.view.dart';
 
 class ListsHome extends StatefulWidget {
   const ListsHome({super.key});
