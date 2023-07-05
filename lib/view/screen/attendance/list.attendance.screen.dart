@@ -29,9 +29,21 @@ class _ListAttendanceScreenState extends State<ListAttendanceScreen> {
   ];
 
   List<StudentModel> _listStudent = [
-    StudentModel('19-05-0022', 'Ramon Francisco', 'Cheno Ocano', 'Hombre'),
-    StudentModel('19-05-0023', 'Jorge Humberto', 'Cheno Ocano', 'Hombre'),
-    StudentModel('19-05-0024', 'Angel Armando', 'Cheno Ocano', 'Hombre')
+    StudentModel(
+        matricula: '19-05-0022',
+        nombre: 'Ramon Francisco',
+        apellido: 'Cheno Ocano',
+        genero: 'Hombre'),
+    StudentModel(
+        matricula: '19-05-0023',
+        nombre: 'Jorge Humberto',
+        apellido: 'Cheno Ocano',
+        genero: 'Hombre'),
+    StudentModel(
+        matricula: '19-05-0024',
+        nombre: 'Angel Armando',
+        apellido: 'Cheno Ocano',
+        genero: 'Hombre')
   ];
 
   String fechaActualS = '';

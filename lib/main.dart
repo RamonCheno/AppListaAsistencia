@@ -21,7 +21,7 @@ class MainApp extends StatelessWidget {
       builder: (_, orientation, screenType) {
         return MaterialApp(
           routes: router,
-          initialRoute: ListsHome.route,
+          initialRoute: ListStudentScreen.route,
           title: '',
           debugShowCheckedModeBanner: false,
           theme: ThemeData(

@@ -12,7 +12,7 @@ class AddStudentScreen extends StatefulWidget {
   State<AddStudentScreen> createState() => _AddStudentScreenState();
 }
 
-class _AddStudentScreenState extends State<AddStudentScreen> {  
+class _AddStudentScreenState extends State<AddStudentScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   late TextEditingController _conMatricula;
@@ -20,6 +20,8 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
   late TextEditingController _conApellido;
   // late StudentController studentC;
   SelectedGender? _conGenero = SelectedGender.hombre;
+
+  void registrarAlumno() async {}
 
   @override
   void dispose() {
@@ -181,7 +183,7 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                             borderRadius: BorderRadius.circular(20),
                           ),
                         ),
-                        onPressed: null,
+                        onPressed: registrarAlumno,
                         child: const Text('Guardar')),
                   ),
                 ),

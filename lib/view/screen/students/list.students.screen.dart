@@ -9,17 +9,17 @@ class ListStudentScreen extends StatefulWidget {
 }
 
 class _ListStudentScreenState extends State<ListStudentScreen> {
-  List<StudentModel> _listStudent = [
-    StudentModel('19-05-0022', 'Ramon Francisco', 'Cheno Ocano', 'Hombre'),
-    StudentModel('19-05-0023', 'Jorge Humberto', 'Cheno Ocano', 'Hombre'),
-    StudentModel('19-05-0024', 'Angel Armando', 'Cheno Ocano', 'Hombre')
-  ];
+  List<StudentModel> _listStudent = [];
 
-  late ScrollController _scrollController;
+  StudentController? studentController;
+
+  final int _selectedIndex = -1;
+
+  ScrollController? _scrollController;
   bool _isVisible = true;
 
   void _scrollListener() {
-    if (_scrollController.position.userScrollDirection ==
+    if (_scrollController!.position.userScrollDirection ==
         ScrollDirection.reverse) {
       if (_isVisible) {
         setState(() {
@@ -27,7 +27,7 @@ class _ListStudentScreenState extends State<ListStudentScreen> {
         });
       }
     }
-    if (_scrollController.position.userScrollDirection ==
+    if (_scrollController!.position.userScrollDirection ==
         ScrollDirection.forward) {
       if (_isVisible) {
         setState(() {
@@ -38,21 +38,22 @@ class _ListStudentScreenState extends State<ListStudentScreen> {
   }
 
   Future<List<StudentModel>> _getStudents() async {
-    List<StudentModel> studentMList = _listStudent;
+    List<StudentModel> studentMList = await studentController!.getStudent();
     return studentMList;
   }
 
   @override
   void initState() {
     super.initState();
+    studentController = StudentController();
     _scrollController = ScrollController();
-    _scrollController.addListener(_scrollListener);
+    _scrollController!.addListener(_scrollListener);
   }
 
   @override
   void dispose() {
-    _scrollController.removeListener(_scrollListener);
-    _scrollController.dispose();
+    _scrollController!.removeListener(_scrollListener);
+    _scrollController!.dispose();
     super.dispose();
   }
 
