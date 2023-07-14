@@ -1,3 +1,4 @@
+import 'package:lista_asistencia_actualizado/controllers/group.controller.dart';
 import 'package:lista_asistencia_actualizado/index/index.view.dart';
 
 class ListGroupScreen extends StatefulWidget {
@@ -9,30 +10,26 @@ class ListGroupScreen extends StatefulWidget {
 }
 
 class ListGroupScreenState extends State<ListGroupScreen> {
-  List<GroupModel> _groupList = [
-    GroupModel(idGroup: 1, nameGroup: "ISC 8-1", idUser: 1),
-    GroupModel(idGroup: 2, nameGroup: "ISC 2-1", idUser: 1),
-    GroupModel(idGroup: 3, nameGroup: "ISC 4-1", idUser: 1),
-    GroupModel(idGroup: 4, nameGroup: "ISC 6-1", idUser: 1)
-  ];
+  List<GroupModel> _groupList = [];
   Map<String, dynamic> _args = {};
   // Map<String, dynamic> _arg = {};
   bool _isVisible = true;
-  String? nombreGrupo;
-  int _selectedIndex = 0;
+  // String? nombreGrupo;
+  int _selectedIndex = -1;
   late TextEditingController _conNombre;
   late ScrollController _scrollController;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  GroupController? groupController;
 
   Future<List<GroupModel>> _getGroup() async {
-    List<GroupModel> groupList = _groupList;
+    List<GroupModel> groupList = await groupController!.getGroups(1);
     return groupList;
   }
 
   Future<void> _listsHomeNavigator() async {
     _args = {
-      'id': _groupList[_selectedIndex].idGroup,
-      'nombre': _groupList[_selectedIndex].nameGroup
+      'id': _groupList[_selectedIndex].idGrupo,
+      'nombre': _groupList[_selectedIndex].nombreGrupo
     };
     await Navigator.pushNamed(context, ListsHome.route, arguments: _args)
         .then((value) {
@@ -95,8 +92,8 @@ class ListGroupScreenState extends State<ListGroupScreen> {
           // modificarGrupo(_groupList[_selectedIndex].idGroup!),
           text: 'Modificar grupo',
           buttonText: 'Modificar',
-          idGrupo: _groupList[_selectedIndex].idGroup,
-          nameGroup: _groupList[_selectedIndex].nameGroup,
+          idGrupo: _groupList[_selectedIndex].idGrupo,
+          nameGroup: _groupList[_selectedIndex].nombreGrupo,
         );
       },
     );
@@ -135,7 +132,7 @@ class ListGroupScreenState extends State<ListGroupScreen> {
         return AlertDialog(
           title: const Text('Eliminar Grupo'),
           content: Text(
-              '¿Seguro que quiere eliminar el grupo ${_groupList[_selectedIndex].nameGroup} con alumnos y asistencia registradas?'),
+              '¿Seguro que quiere eliminar el grupo ${_groupList[_selectedIndex].nombreGrupo} con alumnos y asistencia registradas?'),
           actions: [
             TextButton(
               child: const Text('Aceptar'),
@@ -151,7 +148,7 @@ class ListGroupScreenState extends State<ListGroupScreen> {
                         style: TextStyle(color: Colors.white),
                       ),
                       content: Text(
-                        '¿Realmente deseas eliminar de la lista el grupo ${_groupList[_selectedIndex].nameGroup}?',
+                        '¿Realmente deseas eliminar de la lista el grupo ${_groupList[_selectedIndex].nombreGrupo}?',
                         style: const TextStyle(color: Colors.white),
                       ),
                       actions: [
@@ -161,7 +158,7 @@ class ListGroupScreenState extends State<ListGroupScreen> {
                           onPressed: () async {
                             Navigator.of(context).pop();
                             await eliminarGrupo(
-                                _groupList[_selectedIndex].idGroup,
+                                _groupList[_selectedIndex].idGrupo,
                                 _selectedIndex);
                           },
                         ),
@@ -214,6 +211,7 @@ class ListGroupScreenState extends State<ListGroupScreen> {
   @override
   void initState() {
     super.initState();
+    groupController = GroupController();
     _scrollController = ScrollController();
     _scrollController.addListener(_scrollListener);
     _conNombre = TextEditingController();
@@ -343,7 +341,7 @@ class ListGroupScreenState extends State<ListGroupScreen> {
                               title: Row(
                                 children: [
                                   const SizedBox(width: 15),
-                                  Text(group.nameGroup,
+                                  Text(group.nombreGrupo,
                                       style: TextStyle(fontSize: tamanoTexto)),
                                 ],
                               ),

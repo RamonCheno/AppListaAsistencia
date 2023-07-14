@@ -1,7 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:lista_asistencia_actualizado/view/widgets/custom_scaffold.widget.dart';
-import 'package:lista_asistencia_actualizado/view/widgets/textformfield.widget.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:lista_asistencia_actualizado/index/index.view.dart';
 
 class AddStudentScreen extends StatefulWidget {
   const AddStudentScreen({super.key});
@@ -18,10 +15,8 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
   late TextEditingController _conMatricula;
   late TextEditingController _conNombre;
   late TextEditingController _conApellido;
-  // late StudentController studentC;
+  StudentController? studentC;
   SelectedGender? _conGenero = SelectedGender.hombre;
-
-  void registrarAlumno() async {}
 
   @override
   void dispose() {
@@ -37,7 +32,41 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
     _conMatricula = TextEditingController();
     _conNombre = TextEditingController();
     _conApellido = TextEditingController();
-    // studentC = StudentController();
+    studentC = StudentController();
+  }
+
+  void registrarAlumno() async {
+    final form = _formKey.currentState;
+
+    String matricula = _conMatricula.text;
+    String nombre = _conNombre.text;
+    String apellido = _conApellido.text;
+    String genero = _conGenero == SelectedGender.hombre ? "Hombre" : "Mujer";
+
+    if (form != null) {
+      if (form.validate()) {
+        StudentModel studentM = StudentModel(
+          matricula: matricula.trim(),
+          nombre: nombre.trim(),
+          apellido: apellido.trim(),
+          genero: genero,
+        );
+
+        await studentC!.addStudent(studentM, 4).then((studentExist) {
+          debugPrint("$studentExist");
+          if (studentExist) {
+            mostrarSnackBar(context, "Estudiante agregado correctamente");
+            const Duration(seconds: 2);
+            Navigator.pop(context);
+          } else {
+            mostrarSnackBar(context, 'Alumno ya existente');
+          }
+        }, onError: (error) {
+          debugPrint("$error");
+          mostrarSnackBar(context, 'Error en registrar');
+        });
+      }
+    }
   }
 
   @override
@@ -117,10 +146,10 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                                 ? const Color(0xFFFFFFFF)
                                 : Colors.transparent,
                             borderRadius: BorderRadius.circular(8.0),
-                            // border: Border.all(
-                            //     color: conGenero == SelectedGender.hombre
-                            //         ? const Color(0xfff69100)
-                            //         : Colors.transparent),
+                            border: Border.all(
+                                color: _conGenero == SelectedGender.hombre
+                                    ? const Color(0xfff69100)
+                                    : Colors.transparent),
                           ),
                           child: RadioListTile<SelectedGender>(
                             selected: SelectedGender.hombre == _conGenero,
@@ -146,10 +175,10 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                                 ? const Color(0xFFFFFFFF)
                                 : Colors.transparent,
                             borderRadius: BorderRadius.circular(8.0),
-                            // border: Border.all(
-                            //     color: conGenero == SelectedGender.mujer
-                            //         ? const Color(0xfff69100)
-                            //         : Colors.transparent),
+                            border: Border.all(
+                                color: _conGenero == SelectedGender.mujer
+                                    ? const Color(0xfff69100)
+                                    : Colors.transparent),
                           ),
                           child: RadioListTile<SelectedGender>(
                             selected: SelectedGender.mujer == _conGenero,

@@ -1,7 +1,23 @@
 class GroupModel {
-  late int? idGroup;
-  late String nameGroup;
-  late int idUser;
+  final int? idGrupo;
+  final String nombreGrupo;
+  final int fkMaestro;
 
-  GroupModel({this.idGroup, required this.nameGroup, required this.idUser});
+  GroupModel({
+    this.idGrupo,
+    required this.nombreGrupo,
+    required this.fkMaestro,
+  });
+
+  factory GroupModel.fromMap(Map<String, dynamic> json) => GroupModel(
+        idGrupo: int.parse(json["idGrupo"]),
+        nombreGrupo: json["NombreGrupo"],
+        fkMaestro: int.parse(json["fkMaestro"]),
+      );
+
+  Map<String, dynamic> toMap() => {
+        "idGrupo": idGrupo,
+        "NombreGrupo": nombreGrupo,
+        "fkMaestro": fkMaestro,
+      };
 }

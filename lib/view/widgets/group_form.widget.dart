@@ -1,3 +1,4 @@
+import 'package:lista_asistencia_actualizado/controllers/group.controller.dart';
 import 'package:lista_asistencia_actualizado/index/index.view.dart';
 
 class GrupoForm extends StatefulWidget {
@@ -25,20 +26,20 @@ class GrupoForm extends StatefulWidget {
 }
 
 class _GrupoFormState extends State<GrupoForm> {
-  // GroupController groupC = GroupController();
+  GroupController groupC = GroupController();
 
   @override
   void initState() {
     super.initState();
-    // if (widget.idGrupo != null) {
-    //   _cargarDatosGrupo();
-    // }
+    if (widget.idGrupo != null) {
+      _cargarDatosGrupo();
+    }
   }
 
-  // Future<void> _cargarDatosGrupo() async {
-  //   final grupo = await groupC.getGroup(widget.idGrupo!);
-  //   widget.conNombre.text = grupo.nombreGrupo;
-  // }
+  Future<void> _cargarDatosGrupo() async {
+    final grupo = await groupC.getGroup(widget.idGrupo!);
+    widget.conNombre.text = grupo.nombreGrupo;
+  }
 
   @override
   Widget build(BuildContext context) {

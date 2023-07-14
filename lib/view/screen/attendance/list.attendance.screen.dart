@@ -19,32 +19,9 @@ class _ListAttendanceScreenState extends State<ListAttendanceScreen> {
   ];
   List<int> _selectedOption = [];
 
-  List<AttendanceModel> _listaAsistencia = [
-    AttendanceModel(
-        alumnoFk: '19-05-0022', fecha: '03/07/2023', presente: 'Asistencia'),
-    AttendanceModel(
-        alumnoFk: '19-05-0023', fecha: '03/07/2023', presente: 'Falta'),
-    AttendanceModel(
-        alumnoFk: '19-05-0024', fecha: '03/07/2023', presente: 'Retardo')
-  ];
+  List<AttendanceModel> _listaAsistencia = [];
 
-  List<StudentModel> _listStudent = [
-    StudentModel(
-        matricula: '19-05-0022',
-        nombre: 'Ramon Francisco',
-        apellido: 'Cheno Ocano',
-        genero: 'Hombre'),
-    StudentModel(
-        matricula: '19-05-0023',
-        nombre: 'Jorge Humberto',
-        apellido: 'Cheno Ocano',
-        genero: 'Hombre'),
-    StudentModel(
-        matricula: '19-05-0024',
-        nombre: 'Angel Armando',
-        apellido: 'Cheno Ocano',
-        genero: 'Hombre')
-  ];
+  List<StudentModel> _listStudent = [];
 
   String fechaActualS = '';
 

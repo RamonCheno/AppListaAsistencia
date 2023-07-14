@@ -11,9 +11,11 @@ class ListStudentScreen extends StatefulWidget {
 class _ListStudentScreenState extends State<ListStudentScreen> {
   List<StudentModel> _listStudent = [];
 
+  Map<String, dynamic> _args = {};
+
   StudentController? studentController;
 
-  final int _selectedIndex = -1;
+  int _selectedIndex = -1;
 
   ScrollController? _scrollController;
   bool _isVisible = true;
@@ -37,9 +39,35 @@ class _ListStudentScreenState extends State<ListStudentScreen> {
     }
   }
 
+  Future<void> _updateListStudent(dynamic data) async {
+    _listStudent = data;
+    debugPrint('${_listStudent.toList()}');
+  }
+
   Future<List<StudentModel>> _getStudents() async {
-    List<StudentModel> studentMList = await studentController!.getStudent();
+    int idGroup = _args["id"] ?? 1;
+    debugPrint("ID Grupo: $idGroup");
+    List<StudentModel> studentMList =
+        await studentController!.getStudentsByGroup(idGroup);
     return studentMList;
+  }
+
+  Future<void> registrarAlumno() async {
+    await Navigator.pushNamed(context, AddStudentScreen.route).then((value) {
+      _getStudents().then((student) {
+        setState(() {
+          _listStudent = student;
+        });
+      });
+    });
+  }
+
+  Future<void> eliminarAlumno(String matricula, int index) async {
+    setState(() {
+      if (_listStudent.isNotEmpty) {
+        _listStudent.removeAt(index);
+      }
+    });
   }
 
   @override
@@ -54,18 +82,86 @@ class _ListStudentScreenState extends State<ListStudentScreen> {
   void dispose() {
     _scrollController!.removeListener(_scrollListener);
     _scrollController!.dispose();
+    _listStudent.clear();
     super.dispose();
   }
 
-  Future<void> registrarAlumno() async {
-    await Navigator.pushNamed(context, AddStudentScreen.route,
-        arguments: {'id': "", 'nombre': ""}).then((value) {
-      _getStudents().then((student) {
-        setState(() {
-          _listStudent = student;
-        });
+  @override
+  void didChangeDependencies() {
+    final args =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
+    _args = args;
+    _getStudents().then((student) {
+      setState(() {
+        _listStudent = student;
       });
     });
+    super.didChangeDependencies();
+  }
+
+  Future<void> _dialogConfirmarEliminarAlumno(BuildContext context) async {
+    final List<String> nombres = _listStudent[_selectedIndex].nombre.split(' ');
+    final List<String> apellidos =
+        _listStudent[_selectedIndex].apellido.split(' ');
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Eliminar estudiante'),
+          content: Text(
+              '¿Seguro de eliminar al estudiante "${apellidos[0]} ${nombres[0]}" de la lista?'),
+          actions: [
+            TextButton(
+              onPressed: () async {
+                Navigator.of(context).pop();
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      backgroundColor: Colors.red,
+                      title: const Text(
+                        '¿ESTAS SEGURO?',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      content: Text(
+                        '¿Realmente deseas eliminar de la lista al estudiante "${apellidos[0]} ${nombres[0]}"?',
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                      actions: [
+                        TextButton(
+                          child: const Text('Aceptar',
+                              style: TextStyle(color: Colors.white)),
+                          onPressed: () async {
+                            Navigator.of(context).pop();
+                            await eliminarAlumno(
+                                _listStudent[_selectedIndex].matricula,
+                                _selectedIndex);
+                          },
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text('Cancelar',
+                              style: TextStyle(color: Colors.white)),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+              child: const Text('Aceptar'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancelar'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -85,6 +181,9 @@ class _ListStudentScreenState extends State<ListStudentScreen> {
                 return const Center(
                   child: CircularProgressIndicator(color: Color(0xffF69100)),
                 );
+              }
+              if (snapshot.data != null) {
+                _updateListStudent(snapshot.data);
               }
               return _listStudent.isEmpty
                   ? Container(
@@ -127,6 +226,10 @@ class _ListStudentScreenState extends State<ListStudentScreen> {
                                     'onTap': () async {
                                       await Future.delayed(Duration.zero);
                                       if (!mounted) return;
+                                      setState(() {
+                                        _selectedIndex = index;
+                                      });
+                                      _dialogConfirmarEliminarAlumno(context);
                                     }
                                   },
                                 ],
@@ -169,7 +272,7 @@ class _ListStudentScreenState extends State<ListStudentScreen> {
         opacity: _isVisible ? 1.0 : 0.0,
         child: FloatingActionButton(
           shape: const CircleBorder(),
-          onPressed: null,
+          onPressed: registrarAlumno,
           backgroundColor: const Color(0xffFF9800),
           child: Icon(
             Icons.add,

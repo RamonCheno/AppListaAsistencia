@@ -1,6 +1,8 @@
+import 'package:lista_asistencia_actualizado/api/peticiones_http.dart';
 import 'package:lista_asistencia_actualizado/index/index.view.dart';
 
-void main() {
+void main() async {
+  PeticionesHttp.configureDio();
   runApp(const MainApp());
 }
 
@@ -21,8 +23,8 @@ class MainApp extends StatelessWidget {
       builder: (_, orientation, screenType) {
         return MaterialApp(
           routes: router,
-          initialRoute: ListStudentScreen.route,
-          title: '',
+          initialRoute: ListGroupScreen.route,
+          title: 'Lista Asistencia',
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
             useMaterial3: true,
